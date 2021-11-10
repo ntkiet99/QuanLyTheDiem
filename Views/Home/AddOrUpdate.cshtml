@@ -1,0 +1,88 @@
+﻿@model QuanLyTheDiemKH.Models.KhachHang
+@{
+    Layout = null;
+}
+<div class="modal-content">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box" style="padding:10px 10px">
+                <h4 class="page-title">Thông tin khách hàng</h4>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    @using (@Html.BeginForm("AddOrUpdate", "Home", FormMethod.Post, new { onsubmit = "return SubmitForm(this)" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        @Html.HiddenFor(model => model.Id)
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="recipient-name" class="col-form-label">̀Họ lót<span class="text-danger">*</span></label>
+                                    @Html.EditorFor(model => model.HoLot, new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="recipient-name" class="col-form-label">Tên<span class="text-danger">*</span></label>
+                                    @Html.EditorFor(model => model.Ten, new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="recipient-name" class="col-form-label">Tài khoản<span class="text-danger">*</span></label>
+                                    @Html.EditorFor(model => model.TaiKhoan, new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="recipient-name" class="col-form-label">Địa chỉ<span class="text-danger">*</span></label>
+                                    @Html.EditorFor(model => model.DiaChi, new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="recipient-name" class="col-form-label" style="display: flex; flex-direction: column">Ngày tham gia</label>
+                                    @Html.EditorFor(model => model.NgayThamGia, new { htmlAttributes = new { @id = "flatpickr01", @class = "form-control", style = "width: 100%" } })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="recipient-name" class="col-form-label" style="display: flex; flex-direction: column">Ngày sinh</label>
+                                    @Html.EditorFor(model => model.NgaySinh, new { htmlAttributes = new { @id = "flatpickr01", @class = "form-control", style = "width: 100%" } })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label" style="display: flex; flex-direction: column">Điểm số</label>
+                            @Html.EditorFor(model => model.DiemSo, new { htmlAttributes = new { min = "0", max = "100", @type ="number", @class = "form-control", style = "width: 100%" } })
+                        </div>
+
+                        <div class="form-group text-right mb-0">
+                            <button class="btn btn-primary" type="submit">Lưu</button>
+                            <button type="button" data-dismiss="modal" class="btn btn-secondary">Đóng</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    flatpickr("#flatpickr01", {
+        dateFormat: "m/d/Y",
+    })
+</script>

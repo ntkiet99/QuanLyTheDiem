@@ -1,0 +1,67 @@
+﻿@model List<QuanLyTheDiemKH.Models.KhachHang>
+@using QuanLyTheDiemKH.Models;
+@{
+    Layout = null;
+    int index = 1;
+    List<TheDiem> theDiems = new List<TheDiem>()
+    {
+        new TheDiem(1,"Đồng","C",0, 30),
+        new TheDiem(2,"Bạc","B",31, 60),
+        new TheDiem(3,"Vàng","A",61, 100),
+    };
+
+    TheDiem FindTheDiem(int diem)
+    {
+        var theDiem = new TheDiem();
+
+        var data = theDiems.Where(x => diem >= x.CanDuoi && diem <= x.CanTren).FirstOrDefault();
+
+        return data;
+    }
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>STT</th>
+            <th> Họ và Tên </th>
+            <th> Tài khoản </th>
+            <th> Ngày sinh </th>
+            <th> Địa chỉ </th>
+            <th> Ngày tham gia </th>
+            <th> Điểm số </th>
+            <th> Tên thẻ </th>
+            <th> Loại thẻ </th>
+            <th style="width:200px; min-width:100px;"> &nbsp; </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@index</td>
+                <td>@item.HoLot @item.Ten</td>
+                <td>@item.TaiKhoan</td>
+                <td>@item.NgaySinh.ToShortDateString()</td>
+                <td>@item.DiaChi</td>
+                <td>@item.NgayThamGia.ToShortDateString()</td>
+                <td>@item.DiemSo</td>
+                <td>@FindTheDiem(item.DiemSo).TenThe</td>
+                <td>@FindTheDiem(item.DiemSo).LoaiThe</td>
+                <td class="align-middle text-right">
+                    @{
+                        var uEdit = Url.Action("AddOrUpdate", "Home") + "/" + item.Id;
+                        var urlEdit = @"Popup('" + uEdit + "')";
+                        var uDelete = Url.Action("Delete", "Home") + "/" + item.Id;
+                        var urluDelete = @"Delete('" + uDelete + "')";
+                        var uAddDiem = Url.Action("AddDiem", "Home") + "/" + item.Id;
+                        var urlAddDiem = @"Popup('" + uAddDiem + "')";
+                        index++;
+                    }
+                    <a href="#" onclick="@urlAddDiem" class="btn btn-sm btn-icon btn-secondary"><i class="fa fa-plus"></i> <span class="sr-only">Thêm điểm</span></a>
+                    <a href="#" onclick="@urlEdit" class="btn btn-sm btn-icon btn-secondary"><i class="fa fa-pencil-alt"></i> <span class="sr-only">Sửa</span></a>
+                    <a href="#" onclick="@urluDelete" class="btn btn-sm btn-icon btn-secondary"><i class="far fa-trash-alt"></i> <span class="sr-only">Xóa</span></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
